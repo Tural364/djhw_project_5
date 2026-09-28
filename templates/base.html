@@ -1,0 +1,36 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mini Event Manager{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+    <header class="site-header">
+        <div class="navbar container">
+            <a href="{% url 'event_list' %}" class="brand">
+                <span class="brand-icon">✦</span>
+                Event<span>ly</span>
+            </a>
+
+            <nav class="nav-links">
+                <a href="{% url 'event_list' %}">Events</a>
+                <a href="{% url 'event_create' %}" class="nav-create">
+                    + Create Event
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content container">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

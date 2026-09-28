@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}{{ event.title }}{% endblock %}
+
+{% block content %}
+
+<div class="detail-page">
+
+    <a href="{% url 'event_list' %}" class="back-link">
+        ← Back to events
+    </a>
+
+
+    <section class="detail-card">
+
+        <div class="detail-header">
+
+            <div>
+
+                <span class="eyebrow">
+                    EVENT #{{ event.id }}
+                </span>
+
+                <h1>{{ event.title }}</h1>
+
+            </div>
+
+
+            {% if event.status == "active" %}
+                <span class="badge badge-active">
+                    Active
+                </span>
+            {% else %}
+                <span class="badge badge-closed">
+                    Closed
+                </span>
+            {% endif %}
+
+        </div>
+
+
+        <div class="detail-info-grid">
+
+            <div class="info-item">
+                <span class="info-label">CATEGORY</span>
+                <strong>{{ event.category }}</strong>
+            </div>
+
+            <div class="info-item">
+                <span class="info-label">LOCATION</span>
+                <strong>{{ event.location }}</strong>
+            </div>
+
+            <div class="info-item">
+                <span class="info-label">EVENT ID</span>
+                <strong>#{{ event.id }}</strong>
+            </div>
+
+        </div>
+
+
+        <div class="description-box">
+
+            <span class="info-label">DESCRIPTION</span>
+
+            <p>{{ event.description }}</p>
+
+        </div>
+
+
+        <div class="detail-actions">
+
+            <a
+                href="{% url 'event_list' %}"
+                class="btn btn-secondary"
+            >
+                Back
+            </a>
+
+            {% if event.status == "active" %}
+
+                <form
+                    method="post"
+                    action="{% url 'event_close' event.id %}"
+                    class="action-form"
+                >
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="btn btn-warning"
+                    >
+                        Close Event
+                    </button>
+
+                </form>
+
+            {% endif %}
+
+            <a
+                href="{% url 'event_delete' event.id %}"
+                class="btn btn-danger"
+            >
+                Delete
+            </a>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}

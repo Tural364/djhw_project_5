@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Event{% endblock %}
+
+{% block content %}
+
+<div class="danger-page">
+
+    <div class="danger-card">
+
+        <div class="danger-icon">
+            !
+        </div>
+
+        <span class="eyebrow danger-eyebrow">
+            DANGER ZONE
+        </span>
+
+        <h1>Delete Event?</h1>
+
+        <p>
+            Are you sure you want to delete
+            <strong>{{ event.title }}</strong>?
+        </p>
+
+        <span class="warning-text">
+            This action cannot be undone.
+        </span>
+
+
+        <form method="post" class="delete-form">
+
+            {% csrf_token %}
+
+            <div class="delete-actions">
+
+                <a
+                    href="{% url 'event_detail' event.id %}"
+                    class="btn btn-secondary"
+                >
+                    Cancel
+                </a>
+
+                <button
+                    type="submit"
+                    class="btn btn-danger"
+                >
+                    Yes, Delete
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

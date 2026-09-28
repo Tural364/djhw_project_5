@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Create Event{% endblock %}
+
+{% block content %}
+
+<div class="create-page">
+
+    <div class="create-header">
+
+        <span class="eyebrow">NEW EVENT</span>
+
+        <h1>Create Event</h1>
+
+        <p class="page-subtitle">
+            Fill in the information below to create a new event.
+        </p>
+
+    </div>
+
+
+    <div class="form-card">
+
+        <form method="post" novalidate class="event-form">
+
+            {% csrf_token %}
+
+            {% for field in form %}
+
+                <div class="form-field">
+
+                    <label for="{{ field.id_for_label }}">
+                        {{ field.label }}
+                    </label>
+
+                    {{ field }}
+
+                    {% for error in field.errors %}
+                        <p class="field-error">
+                            {{ error }}
+                        </p>
+                    {% endfor %}
+
+                </div>
+
+            {% endfor %}
+
+
+            <div class="form-actions">
+
+                <a
+                    href="{% url 'event_list' %}"
+                    class="btn btn-secondary"
+                >
+                    Cancel
+                </a>
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Create Event
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

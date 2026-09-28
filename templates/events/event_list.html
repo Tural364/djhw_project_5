@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+
+{% block title %}Events{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <div>
+        <span class="eyebrow">EVENT MANAGEMENT</span>
+
+        <h1>All Events</h1>
+
+        <p class="page-subtitle">
+            Manage your events, track their status and keep everything organized.
+        </p>
+    </div>
+
+    <a href="{% url 'event_create' %}" class="btn btn-primary">
+        <span>+</span>
+        Create Event
+    </a>
+</section>
+
+
+<section class="stats-grid">
+
+    <div class="stat-card">
+        <div class="stat-icon purple">◈</div>
+
+        <div>
+            <span class="stat-label">Total Events</span>
+            <strong>{{ total }}</strong>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon green">✓</div>
+
+        <div>
+            <span class="stat-label">Active</span>
+            <strong>{{ active_count }}</strong>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon gray">◌</div>
+
+        <div>
+            <span class="stat-label">Closed</span>
+            <strong>{{ closed_count }}</strong>
+        </div>
+    </div>
+
+</section>
+
+
+<section class="filters-card">
+
+    <div class="filter-heading">
+        <div>
+            <span class="filter-icon">⌕</span>
+            <strong>Find an event</strong>
+        </div>
+
+        <span class="filter-hint">Filter your events</span>
+    </div>
+
+    <form method="get" class="filters-form">
+
+        <div class="search-wrapper">
+            <span class="input-icon">⌕</span>
+
+            <input
+                type="text"
+                name="q"
+                value="{{ query }}"
+                placeholder="Search by title or location"
+            >
+        </div>
+
+        <select name="category">
+            <option value="">All categories</option>
+
+            {% for category in categories %}
+                <option
+                    value="{{ category }}"
+                    {% if selected_category == category %}selected{% endif %}
+                >
+                    {{ category }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <select name="status">
+            <option value="">All statuses</option>
+
+            <option
+                value="active"
+                {% if selected_status == "active" %}selected{% endif %}
+            >
+                Active
+            </option>
+
+            <option
+                value="closed"
+                {% if selected_status == "closed" %}selected{% endif %}
+            >
+                Closed
+            </option>
+        </select>
+
+        <button type="submit" class="btn btn-primary">
+            Search
+        </button>
+
+        <a href="{% url 'event_list' %}" class="reset-link">
+            Reset
+        </a>
+
+    </form>
+
+</section>
+
+
+<section class="events-section">
+
+    <div class="section-heading">
+        <div>
+            <span class="eyebrow">YOUR EVENTS</span>
+            <h2>Upcoming & Recent</h2>
+        </div>
+
+        <span class="event-count">
+            {{ total }} events
+        </span>
+    </div>
+
+
+    <div class="event-grid">
+
+        {% for event in events %}
+
+            <article class="event-card">
+
+                <div class="event-card-top">
+
+                    <div class="event-category">
+                        {{ event.category }}
+                    </div>
+
+                    {% if event.status == "active" %}
+                        <span class="badge badge-active">
+                            Active
+                        </span>
+                    {% else %}
+                        <span class="badge badge-closed">
+                            Closed
+                        </span>
+                    {% endif %}
+
+                </div>
+
+
+                <div class="event-content">
+
+                    <h3>{{ event.title }}</h3>
+
+                    <p class="event-location">
+                        <span>⌖</span>
+                        {{ event.location }}
+                    </p>
+
+                </div>
+
+
+                <div class="event-footer">
+
+                    <a
+                        href="{% url 'event_detail' event.id %}"
+                        class="details-link"
+                    >
+                        View details
+                        <span>→</span>
+                    </a>
+
+                </div>
+
+            </article>
+
+        {% empty %}
+
+            <div class="empty-state">
+
+                <div class="empty-icon">⌕</div>
+
+                <h2>No events found</h2>
+
+                <p>
+                    Try changing your search or filters.
+                </p>
+
+                <a
+                    href="{% url 'event_list' %}"
+                    class="btn btn-secondary"
+                >
+                    Clear filters
+                </a>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}
